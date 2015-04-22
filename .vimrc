@@ -78,31 +78,6 @@ endif
 call neobundle#begin(expand('/home/Tatsuya/.vim/bundle'))
 
 " Let NeoBundle manage NeoBundle
-" ------------------------
-" scheme setting
-" ------------------------
-syntax on
-colorscheme molokai
-
-" ------------------------
-" neobundle setting
-" ------------------------
-
-" copied from neobundle install message
-"NeoBundle Scripts-----------------------------
-if has('vim_starting')
-  if &compatible
-    set nocompatible               " Be iMproved
-  endif
-
-  " Required:
-  set runtimepath+=/home/Tatsuya/.vim/bundle/neobundle.vim/
-endif
-
-" Required:
-call neobundle#begin(expand('/home/Tatsuya/.vim/bundle'))
-
-" Let NeoBundle manage NeoBundle
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
