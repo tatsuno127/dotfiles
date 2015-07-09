@@ -97,7 +97,7 @@ if has('vim_starting')
     set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
-call neobundle#rc(expand('~/.vim/bundle'))
+call neobundle#begin(expand('~/.vim/bundle'))
 
 " Let Neobundle manage NeoBundle
 NeoBundleFetch 'Shougo/neobundle.vim'
@@ -130,6 +130,7 @@ NeoBundle 'Shougo/vimproc', {
         \ 'unix'    :'make -f make_unix.mak',
     \},
 \}
+call neobundle#end()
 
 " add plugins
 filetype plugin on
