@@ -60,6 +60,8 @@ set wrap
 " fileencodingsの設定を前から順に試してはじめにマッチしたものを採用
 set fileencodings=utf-8,euc-jp,iso-2022-jp,sjis,cp932
 
+syntax on
+
 "------------------
 " edit
 "------------------
