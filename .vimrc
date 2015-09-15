@@ -122,8 +122,8 @@ NeoBundle 'Shougo/neocomplete'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'itchyny/lightline.vim'
-NeoBundle 'amdt/vim-niji'
-NeoBundle 'Shougo/unite.vim'
+" NeoBundle 'amdt/vim-niji'
+" NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimproc', {
     \ 'build': {
         \ 'windows' :'make -f make_mingw32.mak',
