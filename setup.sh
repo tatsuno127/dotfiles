@@ -9,7 +9,7 @@ fi
 
 # zsh
 VAR=`zsh --version`
-if [ $? -nq 0 ]; then
+if [ $? -ne 0 ]; then
     echo "please insltall zsh"
     exit
 fi
@@ -25,11 +25,11 @@ chsh -s /bin/zsh
 
 
 # vim setting
-VAR=`vim --version | grep +lua`
-if [ $?  -ne 0 ]; then
-    echo "vim is not installed, or no lua support"
-    exit
-fi
+# VAR=`vim --version | grep +lua`
+# if [ $?  -ne 0 ]; then
+#     echo "vim is not installed, or no lua support"
+#     exit
+# fi
 if [ ! -f ~/.vim/bundle ]; then
     mkdir -p ~/.vim/bundle
 fi

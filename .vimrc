@@ -304,4 +304,5 @@ let g:lightline = {
 let g:unite_enable_start_insert=1
 nnoremap <silent> ,uu :<C-u>Unite file buffer<CR>
 
+" highlight Normal ctermbg=none
 colorscheme molokai
