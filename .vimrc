@@ -62,6 +62,12 @@ set fileencodings=utf-8,euc-jp,iso-2022-jp,sjis,cp932
 
 syntax on
 
+" --------------------
+" keymaps 
+" --------------------
+nnoremap ' :
+nnoremap ; :
+
 "------------------
 " edit
 "------------------
@@ -297,11 +303,5 @@ let g:lightline = {
 " --------------------
 let g:unite_enable_start_insert=1
 nnoremap <silent> ,uu :<C-u>Unite file buffer<CR>
-
-" --------------------
-"  original
-" --------------------
-nnoremap ' :
-nnoremap ; :
 
 colorscheme molokai
