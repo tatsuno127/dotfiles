@@ -1,7 +1,6 @@
 "---------------------
 " base setting
 "---------------------
-"
 set clipboard=unnamedplus
 
 " vi互換にしない"
@@ -100,7 +99,6 @@ set noincsearch
 " ------------------
 "  neobundle
 " -----------------
-
 if has('vim_starting')
     set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
@@ -110,26 +108,42 @@ call neobundle#begin(expand('~/.vim/bundle'))
 " Let Neobundle manage NeoBundle
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-NeoBundle 'git://github.com/aharisu/vim_goshrepl.git'
-
-NeoBundle 'w0ng/vim-hybrid'
-NeoBundle 'jonathanfilip/vim-lucius'
-NeoBundle 'jpo/vim-railscasts-theme'
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'vim-scripts/Wombat'
-
-NeoBundle 'nanotech/jellybeans.vim'
+" ### color scehme
+" NeoBundle 'jpo/vim-railscasts-theme'
+" NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'tomasr/molokai'
-NeoBundle 'vim-scripts/rdark'
-NeoBundle 'vim-scripts/twilight'
+" NeoBundle 'vim-scripts/rdark'
+" NeoBundle 'vim-scripts/twilight'
+" NeoBundle 'w0ng/vim-hybrid'
+" NeoBundle 'jonathanfilip/vim-lucius'
+" NeoBundle 'vim-scripts/Wombat'
+" NeoBundle 'nanotech/jellybeans.vim'
 
-NeoBundle 'thinca/vim-quickrun'
+" ### gosh interpreter 
+" NeoBundle 'git://github.com/aharisu/vim_goshrepl.git'
+
+" ### quick run
+" NeoBundle 'thinca/vim-quickrun'
+
+" ### complete 
 NeoBundle 'Shougo/neocomplete'
-NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/neosnippet-snippets'
+
+" ### snipet
+" NeoBundle 'Shougo/neosnippet'
+" NeoBundle 'Shougo/neosnippet-snippets'
+
+" ### color line 
 NeoBundle 'itchyny/lightline.vim'
-" NeoBundle 'amdt/vim-niji'
+
+" ### unite
 " NeoBundle 'Shougo/unite.vim'
+
+" ### python
+NeoBundle 'kevinw/pyflakes-vim'
+NeoBundle 'nathanaelkane/vim-indent-guides'
+" NeoBundle 'nvie/vim-flake8'
+
+" ### vimproc
 NeoBundle 'Shougo/vimproc', {
     \ 'build': {
         \ 'windows' :'make -f make_mingw32.mak',
@@ -144,27 +158,16 @@ call neobundle#end()
 filetype plugin on
 
 NeoBundleCheck
+set completeopt-=preview
 
 " ------------------
-"  neosnipet
+"  python
 "  -----------------
-" Plugin key-mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-" SuperTab like snippets behavior.
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: "\<TAB>"
-
-" For snippet_complete marker.
-if has('conceal')
-  set conceallevel=2 concealcursor=niv
-endif
+let g:indent_guides_auto_colors=0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd   ctermbg=235
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven  ctermbg=240
+let g:indent_guides_enable_on_vim_startup=1
+let g:indent_guides_guide_size=1
 
 " ------------------
 "  neocomplete
@@ -253,43 +256,6 @@ endif
 " https://github.com/c9s/perlomni.vim
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
-" " ------------------
-" "  neocomplcache
-" "  -----------------
-" 
-" " Disable AutoComplPop.
-" let g:acp_enableAtStartup = 0
-" " Use neocomplcache
-" let g:neocomplcache_enable_at_startup = 1
-" " Use smartcase
-" let g:neocomplcache_enable_smart_case = 1
-" " Set minimum syntaxkeyword length
-" let g:neocomplcache_min_syntax_length = 3
-" let g:neocomplcache_lock_buffer_name_pattern = '\*ku*'
-" 
-" " Define dictionary
-" let g:neocomplcache_dictionary_filetype_lists = {
-"     \ 'default' : ''
-"     \ }
-" 
-" " Plugin key-mappings.
-" inoremap <expr><C-g>    neocomplcache#undo_completion()
-" inoremap <expr><C-l>    neocomplcache#complete_commom_string()
-" 
-" " Recommended key-mappings.
-" " <CR> : close popup and save indent
-" inoremap <silent> <CR> <C-r>=<SID>my_cr_function() <CR>
-" function! s:my_cr_function()
-"     return neocomplcache#smart_close_popup(). "\<CR>"
-" endfunction
-" " <TAB> : completion.
-" inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-" " <C-h>, <BS>: close popup and delete backword char
-" inoremap <expr><C-h> neocomplcache#smart_close_popup(). "\<C-h>"
-" inoremap <expr><BS> neocomplcache#smart_close_popup(). "\<C-h>"
-" inoremap <expr><C-y> neocomplcache#close_popup().
-" inoremap <expr><C-e> neocomplcache#close_popup().
-
 " --------------------
 "  lightline
 " --------------------
@@ -297,12 +263,8 @@ let g:lightline = {
       \ 'colorscheme': 'wombat',
       \ }
 
-
 " --------------------
-"  Unite 
+"  other
 " --------------------
-let g:unite_enable_start_insert=1
-nnoremap <silent> ,uu :<C-u>Unite file buffer<CR>
-
 " highlight Normal ctermbg=none
 colorscheme molokai
