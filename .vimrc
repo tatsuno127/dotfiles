@@ -66,6 +66,7 @@ syntax on
 " --------------------
 nnoremap ' :
 nnoremap ; :
+let mapleader = ","
 
 "------------------
 " edit
@@ -116,14 +117,16 @@ NeoBundle 'tomasr/molokai'
 " NeoBundle 'vim-scripts/twilight'
 " NeoBundle 'w0ng/vim-hybrid'
 " NeoBundle 'jonathanfilip/vim-lucius'
-" NeoBundle 'vim-scripts/Wombat'
-" NeoBundle 'nanotech/jellybeans.vim'
+"
+" ### color scheme for lightline
+NeoBundle 'vim-scripts/Wombat'
+NeoBundle 'nanotech/jellybeans.vim'
 
 " ### gosh interpreter 
 " NeoBundle 'git://github.com/aharisu/vim_goshrepl.git'
 
 " ### quick run
-" NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'thinca/vim-quickrun'
 
 " ### complete 
 NeoBundle 'Shougo/neocomplete'
@@ -134,6 +137,7 @@ NeoBundle 'Shougo/neocomplete'
 
 " ### color line 
 NeoBundle 'itchyny/lightline.vim'
+" NeoBundle 'Lokaltog/vim-powerline'
 
 " ### unite
 " NeoBundle 'Shougo/unite.vim'
@@ -142,6 +146,7 @@ NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'kevinw/pyflakes-vim'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 " NeoBundle 'nvie/vim-flake8'
+NeoBundle 'davidhalter/jedi-vim'
 
 " ### vimproc
 NeoBundle 'Shougo/vimproc', {
@@ -160,6 +165,18 @@ filetype plugin on
 NeoBundleCheck
 set completeopt-=preview
 
+" -----------------
+"  quick run
+" -----------------
+nmap <Leader>r <Plug>(quickrun)
+let s:hooks = neobundle#get_hooks("vim-quickrun")
+nnoremap <Leader>q :<C-u>bw! \[quickrun\ output\]<CR>
+function! s:hooks.on_source(bundle)
+    let g:quickrun_config = {
+        \ "*": {"runner": "remote/vimproc"},
+        \ }
+endfunction
+
 " ------------------
 "  python
 "  -----------------
@@ -168,6 +185,13 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd   ctermbg=235
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven  ctermbg=240
 let g:indent_guides_enable_on_vim_startup=1
 let g:indent_guides_guide_size=1
+
+" ------------------
+"  jedi-vim
+"  -----------------
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#popup_select_first = 0
+let g:jedi#rename_command = '<Leader>R'
 
 " ------------------
 "  neocomplete
@@ -185,7 +209,7 @@ let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
 " Define dictionary.
 let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
+    \ 'jellybeans' : '',
     \ 'vimshell' : $HOME.'/.vimshell_hist',
     \ 'scheme' : $HOME.'/.gosh_completions'
         \ }
@@ -259,12 +283,23 @@ let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 " --------------------
 "  lightline
 " --------------------
+" let g:lightline = {
+"     \ 'colorscheme': 'wombat',
+"     \ 'component': {
+"     \   'readonly': '%{&readonly?"🔏":""}',
+"     \ }
+"     \ }
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ }
+\ 'colorscheme': 'solarized',
+\ 'component': {
+\   'readonly': '%{&readonly?"":""}',
+\ },
+\ 'separator': { 'left': '', 'right': '' },
+\ 'subseparator': { 'left': '', 'right': '' }
+\ }
 
 " --------------------
 "  other
 " --------------------
-" highlight Normal ctermbg=none
 colorscheme molokai
+highlight Normal ctermbg=none
