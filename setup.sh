@@ -8,20 +8,20 @@ if [ $? -ne 0 ]; then
 fi
 
 # zsh
-VAR=`zsh --version`
-if [ $? -ne 0 ]; then
-    echo "please insltall zsh"
-    exit
-fi
-if [ ! -d ~/.oh-my-zsh ]; then
-    git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
-fi
-if [ -e ~/.zshrc ]; then
-    mv ~/.zshrc ~/.zshrc.backup
-fi
-cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
-echo "## start chsh"
-chsh -s /bin/zsh
+# VAR=`zsh --version`
+# if [ $? -ne 0 ]; then
+#     echo "please insltall zsh"
+#     exit
+# fi
+# if [ ! -d ~/.oh-my-zsh ]; then
+#     git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+# fi
+# if [ -e ~/.zshrc ]; then
+#     mv ~/.zshrc ~/.zshrc.backup
+# fi
+# cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
+# echo "## start chsh"
+# chsh -s /bin/zsh
 
 
 # vim setting
