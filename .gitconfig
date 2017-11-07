@@ -1,0 +1,9 @@
+[user]
+	name = tatsunode
+	email = tatsunode@yahoo.co.jp
+[core]
+    editor = vim
+[color]
+    ui = auto
+[push]
+    default = simple
