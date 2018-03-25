@@ -1,121 +1,482 @@
-" ============
-" dein.vim
-" ===========
-if &compatible
-  set nocompatible
-endif
-set runtimepath+=~/.config/nvim/dein/repos/github.com/Shougo/dein.vim
-
-if dein#load_state('/home/tatsuno/.config/nvim/dein/plugins')
-  call dein#begin('/home/tatsuno/.config/nvim/dein/plugins')
-
-  call dein#load_toml('/home/tatsuno/.config/nvim/dein.toml')
-  call dein#add('~/.config/nvim/dein/repos/github.com/Shougo/dein.vim')
-  " call dein#add('Shougo/deoplete.nvim')
-  " call dein#add('Shougo/neocomplete.vim')
-
-  call dein#end()
-  call dein#save_state()
+"*****************************************************************************
+"" Vim-PLug core
+"*****************************************************************************
+if has('vim_starting')
+  set nocompatible               " Be iMproved
 endif
 
+let vimplug_exists=expand('~/.config/nvim/autoload/plug.vim')
+
+let g:vim_bootstrap_langs = "html,javascript,python"
+let g:vim_bootstrap_editor = "nvim"				" nvim or vim
+
+if !filereadable(vimplug_exists)
+  if !executable("curl")
+    echoerr "You have to install curl or first install vim-plug yourself!"
+    execute "q!"
+  endif
+  echo "Installing Vim-Plug..."
+  echo ""
+  silent !\curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  let g:not_finish_vimplug = "yes"
+
+  autocmd VimEnter * PlugInstall
+endif
+
+" Required:
+call plug#begin(expand('~/.config/nvim/plugged'))
+
+"*****************************************************************************
+"" Plug install packages
+"*****************************************************************************
+Plug 'scrooloose/nerdtree'
+Plug 'jistr/vim-nerdtree-tabs'
+
+"gcでコメントアウト・イン
+Plug 'tpope/vim-commentary'
+" Vim上でgit
+" Plug 'tpope/vim-fugitive'
+
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" 右に差分を表示
+Plug 'airblade/vim-gitgutter'
+
+
+" Plug 'vim-scripts/grep.vim'
+Plug 'vim-scripts/CSApprox'
+Plug 'bronson/vim-trailing-whitespace'
+Plug 'Raimondi/delimitMate'
+Plug 'majutsushi/tagbar'
+Plug 'scrooloose/syntastic'
+Plug 'Yggdroot/indentLine'
+Plug 'avelino/vim-bootstrap-updater'
+Plug 'sheerun/vim-polyglot'
+Plug 'Shougo/neosnippet-snippets'
+Plug 'Shougo/neosnippet.vim'
+if isdirectory('/usr/local/opt/fzf')
+  Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
+else
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+  Plug 'junegunn/fzf.vim'
+endif
+let g:make = 'gmake'
+if exists('make')
+        let g:make = 'make'
+endif
+Plug 'Shougo/vimproc.vim', {'do': g:make}
+
+"" Vim-Session
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-session'
+
+if v:version >= 703
+  Plug 'Shougo/vimshell.vim'
+endif
+
+" if v:version >= 704
+  "" Snippets
+""  Plug 'SirVer/ultisnips'
+" endif
+
+Plug 'honza/vim-snippets'
+
+"" Color
+Plug 'tomasr/molokai'
+
+"" deoplete
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+
+"*****************************************************************************
+"" Custom bundles
+"*****************************************************************************
+
+" html
+"" HTML Bundle
+Plug 'hail2u/vim-css3-syntax'
+Plug 'zchee/deoplete-jedi'
+Plug 'gorodinskiy/vim-coloresque'
+Plug 'tpope/vim-haml'
+Plug 'mattn/emmet-vim'
+
+
+" javascript
+"" Javascript Bundle
+Plug 'jelera/vim-javascript-syntax'
+Plug 'posva/vim-vue'
+
+
+" python
+"" Python Bundle
+Plug 'jmcantrell/vim-virtualenv'
+Plug 'hynek/vim-python-pep8-indent'
+Plug 'andviro/flake8-vim'
+Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
+Plug 'davidhalter/jedi-vim'
+
+
+"*****************************************************************************
+"*****************************************************************************
+
+"" Include user's extra bundle
+if filereadable(expand("~/.config/nvim/local_bundles.vim"))
+  source ~/.config/nvim/local_bundles.vim
+endif
+
+call plug#end()
+
+" Required:
 filetype plugin indent on
-syntax enable
 
 
-" ============
-" ============
-set clipboard=unnamedplus
+"*****************************************************************************
+"" Basic Setup
+"*****************************************************************************"
 
-set nocompatible
-set whichwrap=b,s,h,l,<,>,[,]
-set mouse=a
-set encoding=utf-8
-
-set number
-set title
-set ruler
+if &compatible
+    set nocompatible
+endif
 set shortmess+=I
-set showcmd
-set cmdheight=2
-
 set scrolloff=5
-set laststatus=2
-set statusline=%<%f\ %m%r%h%w%y%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%4v\ %l/%L
-
-highlight StatusLine term=bold cterm=bold ctermfg=black ctermbg=white
-
 set showmatch
 set matchtime=2
-
-set textwidth=0
 set wrap
 
-set fileencodings=utf-8,euc-jp,iso-2022-jp,sjis,cp932
-set autoindent
+"" Encoding
+set encoding=utf-8
+set fileencodings=utf-8,enc-jp,iso-2022-jp,sjis,cp932
+set fileencoding=utf-8
+set bomb
+set binary
 
-syntax on
 
-" --------------------
-" keymaps 
-" --------------------
-nnoremap ' :
-nnoremap ; :
-let mapleader = ","
-
-"------------------
-" edit
-"------------------
-" バックスペースでインデントを削除可能に
+"" Fix backspace indent
 set backspace=indent,eol,start
-" オートインデントを有効に
-set autoindent
-" タブが対応する空白の数
+
+"" Tabs. May be overriten by autocmd rules
+set whichwrap=b,s,h,l,<,>,[,]
+set mouse=a
 set tabstop=4
 set softtabstop=4
-" オートインデントでの字下げの空白数
 set shiftwidth=4
-" タブの代わりに空白を使う
 set expandtab
+set autoindent
 set smartindent
 
-" ----------------
-"  search
-" ----------------
-" 検索時に大文字小文字を区別しない
+"" Map leader to ,
+let mapleader=','
+
+"" Enable hidden buffers
+set hidden
+
+"" Searching
+set hlsearch
+set incsearch
 set ignorecase
-" 最後まで検索したら最初へ戻る
+set smartcase
 set wrapscan
-" 即検索（インクリメンタルサーチ）を使わない
-set noincsearch
 
-" ----------------
-"  spell check
-" ----------------
-set spell
-set spelllang=en,cjk
+"" Directories for swp files
+set nobackup
+set noswapfile
 
-" ----------------
-"  tabs
-" ----------------
-" Anywhere SID.
-function! s:SID_PREFIX()
-  return matchstr(expand('<sfile>'), '<SNR>\d\+_\zeSID_PREFIX$')
-endfunction
+set fileformats=unix,dos,mac
 
-" The prefix key.
-nnoremap    [Tag]   <Nop>
-nmap    t [Tag]
-" Tab jump
-for n in range(1, 9)
-  execute 'nnoremap <silent> [Tag]'.n  ':<C-u>tabnext'.n.'<CR>'
-endfor
-" t1 で1番左のタブ、t2 で1番左から2番目のタブにジャンプ
+if exists('$SHELL')
+    set shell=$SHELL
+else
+    set shell=/bin/sh
+endif
 
-map <silent> [Tag]c :tablast <bar> tabnew<CR>
-" tc 新しいタブを一番右に作る
-map <silent> [Tag]x :tabclose<CR>
-" tx タブを閉じる
-map <silent> [Tag]n :tabnext<CR>
-" tn 次のタブ
-map <silent> [Tag]p :tabprevious<CR>
-" tp 前のタブ
+" session management
+let g:session_directory = "~/.config/nvim/session"
+let g:session_autoload = "no"
+let g:session_autosave = "no"
+let g:session_command_aliases = 1
+
+"*****************************************************************************
+"" Visual Settings
+"*****************************************************************************
+syntax on
+set ruler
+set number
+
+let no_buffers_menu=1
+if !exists('g:not_finish_vimplug')
+  colorscheme molokai
+endif
+
+set mousemodel=popup
+set t_Co=256
+set guioptions=egmrti
+set gfn=Monospace\ 10
+
+if has("gui_running")
+  if has("gui_mac") || has("gui_macvim")
+    set guifont=Menlo:h12
+    set transparency=7
+  endif
+else
+  let g:CSApprox_loaded = 1
+
+  " IndentLine
+  let g:indentLine_enabled = 1
+  let g:indentLine_concealcursor = 0
+  let g:indentLine_char = '┆'
+  let g:indentLine_faster = 1
+
+  
+endif
+
+
+
+"" Disable the blinking cursor.
+set gcr=a:blinkon0
+" set scrolloff=3
+
+"" Status bar
+set laststatus=2
+
+"" Use modeline overrides
+set modeline
+set modelines=10
+
+set title
+set titleold="Terminal"
+set titlestring=%F
+
+set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
+
+" Search mappings: These will make it so that going to the next one in a
+" search will center on the line it's found in.
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+if exists("*fugitive#statusline")
+  set statusline+=%{fugitive#statusline()}
+endif
+
+" vim-airline
+let g:airline_theme = 'powerlineish'
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline_skip_empty_sections = 1
+
+"*****************************************************************************
+"" Abbreviations
+"*****************************************************************************
+"" no one is really happy until you have this shortcuts
+cnoreabbrev W! w!
+cnoreabbrev Q! q!
+cnoreabbrev Qall! qall!
+cnoreabbrev Wq wq
+cnoreabbrev Wa wa
+cnoreabbrev wQ wq
+cnoreabbrev WQ wq
+cnoreabbrev W w
+cnoreabbrev Q q
+cnoreabbrev Qall qall
+
+"" NERDTree configuration
+let g:NERDTreeChDirMode=2
+let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
+let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
+let g:NERDTreeShowBookmarks=1
+let g:nerdtree_tabs_focus_on_files=1
+let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
+" let g:NERDTreeWinSize = 50
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
+" nnoremap <silent> <F2> :NERDTreeFind<CR>
+nnoremap <silent><C-n> :NERDTreeToggle<CR>
+
+" grep.vim
+nnoremap <silent> <leader>f :Rgrep<CR>
+let Grep_Default_Options = '-IR'
+let Grep_Skip_Files = '*.log *.db'
+let Grep_Skip_Dirs = '.git node_modules'
+
+" vimshell.vim
+let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
+let g:vimshell_prompt =  '$ '
+
+" terminal emulation
+if g:vim_bootstrap_editor == 'nvim'
+  nnoremap <silent> <leader>sh :terminal<CR>
+else
+  nnoremap <silent> <leader>sh :VimShellCreate<CR>
+endif
+
+"*****************************************************************************
+"" Functions
+"*****************************************************************************
+if !exists('*s:setupWrapping')
+  function s:setupWrapping()
+    set wrap
+    set wm=2
+    set textwidth=79
+  endfunction
+endif
+
+"*****************************************************************************
+"" Mappings
+"*****************************************************************************
+
+nnoremap ' :
+nnoremap ; :
+
+" snippets
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+let g:UltiSnipsEditSplit="vertical"
+
+" syntastic
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_error_symbol='✗'
+let g:syntastic_warning_symbol='⚠'
+let g:syntastic_style_error_symbol = '✗'
+let g:syntastic_style_warning_symbol = '⚠'
+let g:syntastic_auto_loc_list=1
+let g:syntastic_aggregate_errors = 1
+
+" Tagbar
+nmap <silent> <F4> :TagbarToggle<CR>
+let g:tagbar_autofocus = 1
+
+" Disable visualbell
+set noerrorbells visualbell t_vb=
+if has('autocmd')
+  autocmd GUIEnter * set visualbell t_vb=
+endif
+
+"" Copy/Paste/Cut
+if has('unnamedplus')
+  set clipboard=unnamed,unnamedplus
+endif
+
+noremap YY "+y<CR>
+noremap <leader>p "+gP<CR>
+noremap XX "+x<CR>
+
+"*****************************************************************************
+"" Custom configs
+"*****************************************************************************
+
+" html
+" for html files, 2 spaces
+autocmd Filetype html setlocal ts=2 sw=2 expandtab
+
+
+" javascript
+let g:javascript_enable_domhtmlcss = 1
+
+" vim-javascript
+augroup vimrc-javascript
+  autocmd!
+  autocmd FileType javascript set tabstop=4|set shiftwidth=4|set expandtab softtabstop=4
+augroup END
+
+
+" python
+" vim-python
+augroup vimrc-python
+  autocmd!
+  autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=8 colorcolumn=79
+      \ formatoptions+=croq softtabstop=4
+      \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+augroup END
+
+" jedi-vim
+let g:jedi#popup_on_dot = 0
+let g:jedi#goto_assignments_command = "<leader>g"
+let g:jedi#goto_definitions_command = "<leader>d"
+let g:jedi#documentation_command = "K"
+let g:jedi#usages_command = "<leader>n"
+let g:jedi#rename_command = "<leader>r"
+let g:jedi#show_call_signatures = "0"
+let g:jedi#completions_command = "<C-Space>"
+let g:jedi#smart_auto_mappings = 0
+
+" syntastic
+let g:syntastic_python_checkers=['python', 'flake8']
+
+" vim-airline
+let g:airline#extensions#virtualenv#enabled = 1
+
+" Syntax highlight
+" Default highlight is better than polyglot
+let g:polyglot_disabled = ['python']
+let python_highlight_all = 1
+
+" deoplete
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_at_startup = 1
+"Tab補完の設定
+inoremap <expr><tab> pumvisible() ? "\<C-n>" :
+      \ neosnippet#expandable_or_jumpable() ?
+      \    "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
+
+" neosnippe
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+xmap <C-k> <Plug>(neosnippet_expand_target)
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
+
+"*****************************************************************************
+"*****************************************************************************
+
+"" Include user's local vim config
+if filereadable(expand("~/.config/nvim/local_init.vim"))
+  source ~/.config/nvim/local_init.vim
+endif
+
+"*****************************************************************************
+"" Convenience variables
+"*****************************************************************************
+
+" vim-airline
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+if !exists('g:airline_powerline_fonts')
+  let g:airline#extensions#tabline#left_sep = ' '
+  let g:airline#extensions#tabline#left_alt_sep = '|'
+  let g:airline_left_sep          = '▶'
+  let g:airline_left_alt_sep      = '»'
+  let g:airline_right_sep         = '◀'
+  let g:airline_right_alt_sep     = '«'
+  let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
+  let g:airline#extensions#readonly#symbol   = '⊘'
+  let g:airline#extensions#linecolumn#prefix = '¶'
+  let g:airline#extensions#paste#symbol      = 'ρ'
+  let g:airline_symbols.linenr    = '␊'
+  let g:airline_symbols.branch    = '⎇'
+  let g:airline_symbols.paste     = 'ρ'
+  let g:airline_symbols.paste     = 'Þ'
+  let g:airline_symbols.paste     = '∥'
+  let g:airline_symbols.whitespace = 'Ξ'
+else
+  let g:airline#extensions#tabline#left_sep = ''
+  let g:airline#extensions#tabline#left_alt_sep = ''
+
+  " powerline symbols
+  let g:airline_left_sep = ''
+  let g:airline_left_alt_sep = ''
+  let g:airline_right_sep = ''
+  let g:airline_right_alt_sep = ''
+  let g:airline_symbols.branch = ''
+  let g:airline_symbols.readonly = ''
+  let g:airline_symbols.linenr = ''
+endif
