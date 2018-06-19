@@ -417,6 +417,12 @@ let g:airline#extensions#virtualenv#enabled = 1
 let g:polyglot_disabled = ['python']
 let python_highlight_all = 1
 
+" close quickfix automatically
+aug QFClose
+  au!
+  au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
+aug END
+
 " deoplete
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_at_startup = 1
